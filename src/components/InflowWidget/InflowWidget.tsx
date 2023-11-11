@@ -15,6 +15,8 @@ import Card from "../Card/Card";
 import { INFLOWTYPES, Inflow, inflowData } from "../../data/data";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Autocomplete, { AutoCompleteOption } from "../AutoComplete/AutoComplete";
+import { useDispatch } from "react-redux";
+import { isEmpty } from "../../helpers/helpers";
 
 interface InflowExpenseTypeOptions extends AutoCompleteOption {
   label: INFLOWTYPES;
@@ -47,9 +49,17 @@ const InflowWidget = (props: InflowWidgetProps) => {
 
   const ref = useRef() as RefObject<HTMLDivElement>;
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setData(inflowData);
   }, []);
+
+  useEffect(() => {
+    if(!isEmpty(data)){
+        dispatch({type : 'ADD_INFLOW',payload : data})
+    }
+  },[data])
 
   useEffect(() => {
     if (editMode) {
@@ -92,7 +102,7 @@ const InflowWidget = (props: InflowWidgetProps) => {
         <Box>
           {!editMode && (
             <Button type="button" variant="contained" onClick={onButtonClick}>
-              + Add Expense
+              + Add Inflow
             </Button>
           )}
           {editMode && (
