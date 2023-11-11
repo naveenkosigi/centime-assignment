@@ -7,10 +7,12 @@ export interface Inflow {
   type: INFLOWTYPES;
 }
 
+export type OUTFLOWTYPES = "ELECTRIC" | "MOBILE" | "MISC"
+
 export interface OutFlow{
   id: string;
   amount: number;
-  type: "ELECTRIC" | "MOBILE" | "MISC";  
+  type: OUTFLOWTYPES;  
 }
 
 export const inflowData: Inflow[] = [

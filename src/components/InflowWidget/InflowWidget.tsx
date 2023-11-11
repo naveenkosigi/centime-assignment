@@ -63,11 +63,7 @@ const InflowWidget = (props: InflowWidgetProps) => {
 
   useEffect(() => {
     if (editMode) {
-      ref.current?.scrollTo({
-        top: 100,
-        left: 0,
-        behavior: "smooth",
-      });
+      ref.current?.scrollIntoView({behavior:"smooth"});
     }
   }, [editMode]);
 
@@ -124,7 +120,6 @@ const InflowWidget = (props: InflowWidgetProps) => {
         <TableContainer
           component={Paper}
           sx={{ maxHeight: "20rem", marginTop: "1rem" }}
-          ref={ref}
         >
           <Table sx={{ minWidth: "20rem" }} aria-label="simple table">
             <TableHead>
@@ -149,7 +144,7 @@ const InflowWidget = (props: InflowWidgetProps) => {
               ))}
               {editMode && (
                 <TableRow>
-                  <TableCell component="th" scope="row">
+                  <TableCell component="th" scope="row" ref={ref}>
                     <TextField
                       id="new-amount"
                       label="Amount"
