@@ -22,14 +22,14 @@ i18n
     resources: {
       en: {
         translation: {
-          dashboard: {
+          expense_tracker: {
             title: "Welcome",
           },
         },
       },
       es: {
         translation: {
-          dashboard: {
+          expense_tracker: {
             title: "Hola",
           },
         },
