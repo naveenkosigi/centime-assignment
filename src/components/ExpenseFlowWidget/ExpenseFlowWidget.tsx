@@ -9,12 +9,14 @@ import {
   Box,
   Button,
   TextField,
+  IconButton,
 } from "@mui/material";
 import { ExpenseFlow, data as APIData } from "../../data/data";
 import Card from "../Card/Card";
 import { useEffect, useState } from "react";
 import { isEmpty } from "../../helpers/helpers";
 import { useDispatch } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -31,13 +33,13 @@ const ExpenseFlowWidget = () => {
   }, []);
 
   useEffect(() => {
-    if(data){
-        dispatch({
-            type : 'ADD_EXPENSE_FLOW',
-            payload : data
-        })    
+    if (data) {
+      dispatch({
+        type: "ADD_EXPENSE_FLOW",
+        payload: data,
+      });
     }
-  },[data])
+  }, [data]);
 
   useEffect(() => {
     if (editMode === true) {
@@ -48,9 +50,8 @@ const ExpenseFlowWidget = () => {
           type: "",
           outflow: [],
         });
-    }
-    else{
-        setDataToEdit(undefined);
+    } else {
+      setDataToEdit(undefined);
     }
   }, [editMode, isNewRecord]);
 
@@ -59,14 +60,11 @@ const ExpenseFlowWidget = () => {
   };
 
   const onSave = () => {
-    console.log("data to save",dataToEdit)
+    console.log("data to save", dataToEdit);
 
     setData((state) => {
-        return [
-            ...state as ExpenseFlow[],
-            dataToEdit
-        ]
-    })
+      return [...(state as ExpenseFlow[]), dataToEdit];
+    });
 
     setEditMode(false);
   };
@@ -109,40 +107,48 @@ const ExpenseFlowWidget = () => {
     }
   };
 
-  const onOutflowExpenseChange = (amount : number,index : number) => {
-    if(amount){
-        const outflowExpense = dataToEdit?.outflow.find((outflow) => +outflow.id === index)
+  const onOutflowExpenseChange = (amount: number, index: number) => {
+    if (amount) {
+      const outflowExpense = dataToEdit?.outflow.find(
+        (outflow) => +outflow.id === index
+      );
 
-        setDataToEdit((state) => {
+      setDataToEdit((state) => {
+        state.outflow[index] = { ...outflowExpense, amount };
 
-            state.outflow[index] = {...outflowExpense,amount}
-
-            return {
-                ...state,
-                outflow : [
-                    ...state?.outflow as []
-                ]
-            }
-        })
+        return {
+          ...state,
+          outflow: [...(state?.outflow as [])],
+        };
+      });
     }
-  }
+  };
 
-  const onOutflowExpenseTypeChange = (type : string , index : number) => {
-    if(type){
-        const outflowExpense = dataToEdit?.outflow.find((outflow) => +outflow.id === index)
+  const onOutflowExpenseTypeChange = (type: string, index: number) => {
+    if (type) {
+      const outflowExpense = dataToEdit?.outflow.find(
+        (outflow) => +outflow.id === index
+      );
 
-        setDataToEdit((state) => {
+      setDataToEdit((state) => {
+        state.outflow[index] = { ...outflowExpense, type };
 
-            state.outflow[index] = {...outflowExpense,type}
-
-            return {
-                ...state,
-                outflow : [
-                    ...state?.outflow as []
-                ]
-            }
-        })
+        return {
+          ...state,
+          outflow: [...(state?.outflow as [])],
+        };
+      });
     }
+  };
+
+  const onDelete = (id : string) => {
+    setData((state) => {
+
+        const index = state?.findIndex(item => item.id === String(id))
+        const toReturn = state?.slice();
+        toReturn?.splice(index as number,1)
+        return toReturn?.slice()
+    })
   }
 
   return (
@@ -181,6 +187,7 @@ const ExpenseFlowWidget = () => {
                 <TableCell>Inflow Type</TableCell>
                 <TableCell>{"Expense Amount (Rs.)"}</TableCell>
                 <TableCell>Expense Type</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -213,6 +220,11 @@ const ExpenseFlowWidget = () => {
                       );
                     })}
                   </TableCell>
+                  <TableCell>
+                    <IconButton onClick={onDelete.bind(undefined,+expense.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
               {editMode && isNewRecord && !isEmpty(dataToEdit) && (
@@ -235,7 +247,9 @@ const ExpenseFlowWidget = () => {
                       label="Inflow Type"
                       sx={{ width: "8rem" }}
                       defaultValue={dataToEdit?.type}
-                      onChange={(event) => {onExpenseTypeChange(event.target.value)}}
+                      onChange={(event) => {
+                        onExpenseTypeChange(event.target.value);
+                      }}
                     />
                   </TableCell>
                   {!!dataToEdit?.outflow.length &&
@@ -249,7 +263,12 @@ const ExpenseFlowWidget = () => {
                               type="number"
                               sx={{ width: "8rem" }}
                               defaultValue={dataToEdit.outflow[index].amount}
-                              onChange={(event) => onOutflowExpenseChange(+event.target.value,index)}
+                              onChange={(event) =>
+                                onOutflowExpenseChange(
+                                  +event.target.value,
+                                  index
+                                )
+                              }
                             />
                           </TableCell>
                           <TableCell>
@@ -259,7 +278,12 @@ const ExpenseFlowWidget = () => {
                               type="text"
                               sx={{ width: "8rem" }}
                               defaultValue={dataToEdit.outflow[index].type}
-                              onChange={(event) => onOutflowExpenseTypeChange(event.target.value,index)}
+                              onChange={(event) =>
+                                onOutflowExpenseTypeChange(
+                                  event.target.value,
+                                  index
+                                )
+                              }
                             />{" "}
                             {index === 0 && (
                               <Button
