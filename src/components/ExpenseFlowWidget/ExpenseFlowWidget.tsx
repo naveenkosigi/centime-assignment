@@ -14,6 +14,7 @@ import { ExpenseFlow, data as APIData } from "../../data/data";
 import Card from "../Card/Card";
 import { useEffect, useState } from "react";
 import { isEmpty } from "../../helpers/helpers";
+import { useDispatch } from "react-redux";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -23,9 +24,20 @@ const ExpenseFlowWidget = () => {
 
   const [isNewRecord, setIsNewRecord] = useState<boolean>(true);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setData(APIData);
   }, []);
+
+  useEffect(() => {
+    if(data){
+        dispatch({
+            type : 'ADD_EXPENSE_FLOW',
+            payload : data
+        })    
+    }
+  },[data])
 
   useEffect(() => {
     if (editMode === true) {
@@ -37,6 +49,9 @@ const ExpenseFlowWidget = () => {
           outflow: [],
         });
     }
+    else{
+        setDataToEdit(undefined);
+    }
   }, [editMode, isNewRecord]);
 
   const onButtonClick = () => {
@@ -45,6 +60,15 @@ const ExpenseFlowWidget = () => {
 
   const onSave = () => {
     console.log("data to save",dataToEdit)
+
+    setData((state) => {
+        return [
+            ...state as ExpenseFlow[],
+            dataToEdit
+        ]
+    })
+
+    setEditMode(false);
   };
 
   const onAddExpense = () => {
