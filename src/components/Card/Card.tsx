@@ -16,7 +16,7 @@ const Card = (props: CardProps) => {
   return (
     <MaterialCard className={classes["card"]}>
       <CardContent>
-        <Typography sx={{ fontSize: 14,fontWeight:"bold" }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: "1rem",fontWeight:"bold" }} color="text.secondary" gutterBottom>
           {props.title}
         </Typography>
         <CardContent>

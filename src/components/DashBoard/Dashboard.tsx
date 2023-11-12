@@ -12,7 +12,6 @@ const Dashboard = () => {
 
   const {t} = useTranslation();
 
-  useTranslation
   return (
     <>
       <Grid container gap={"2rem"} marginTop={"2rem"}>
