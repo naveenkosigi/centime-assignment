@@ -16,7 +16,7 @@ const Dashboard = () => {
   return (
     <>
       <Grid container gap={"2rem"} marginTop={"2rem"}>
-        <Grid item sx={"6"}>
+        <Grid item xs={"12"}>
           <ExpenseFlowWidget />
         </Grid>
         <Grid item sx={"12"} width={"100%"} height={"30rem"}>

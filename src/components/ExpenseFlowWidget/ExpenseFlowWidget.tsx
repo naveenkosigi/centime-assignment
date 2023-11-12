@@ -151,7 +151,7 @@ const ExpenseFlowWidget = () => {
         <Box>
           {!editMode && (
             <Button type="button" variant="contained" onClick={onButtonClick}>
-              + Add Inflow
+              + Add Data
             </Button>
           )}
           {editMode && (
