@@ -15,6 +15,17 @@ export interface OutFlow{
   type: OUTFLOWTYPES;  
 }
 
+export interface ExpenseFlow{
+  id : string,
+  amount : number,
+  type : string
+  outflow : {
+    id : string,
+    amount : number,
+    type : string
+  }[]
+}
+
 export const inflowData: Inflow[] = [
   {
     id: "0",
@@ -40,3 +51,23 @@ export const outflowData: OutFlow[] = [
     type:"MOBILE"
   }
 ];
+
+export const data : ExpenseFlow[] = [
+  {
+    id : '0',
+    amount : 5000,
+    type:"SALARY",
+    outflow : [
+      {
+        id : '0',
+        amount : 1000,
+        type : "Electric"
+      },
+      {
+        id : '0',
+        amount : 2000,
+        type : "Mobile"
+      }
+    ]
+  }
+]

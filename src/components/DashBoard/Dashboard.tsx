@@ -5,9 +5,7 @@ import React from "react"
 import { useTranslation } from "react-i18next";
 import TypoGraphy from "@mui/material/Typography"
 import Grid from "@mui/material/Grid";
-import InflowWidget from "../InflowWidget/InflowWidget";
-import OutFlowWidget from "../OutFlowWidget/OutFlowWidget";
-
+import ExpenseFlowWidget from "../ExpenseFlowWidget/ExpenseFlowWidget";
 const Dashboard = () => {
 
   const {t} = useTranslation();
@@ -21,10 +19,7 @@ const Dashboard = () => {
 
       <Grid container gap={"2rem"} marginTop={"2rem"}>
         <Grid item sx={"6"}>
-          <InflowWidget />
-        </Grid>
-        <Grid item sx={"6"}>
-          <OutFlowWidget />
+          <ExpenseFlowWidget />
         </Grid>
       </Grid>
     </>
