@@ -141,13 +141,22 @@ const ExpenseFlowWidget = () => {
     }
   };
 
-  const onDelete = (id : string) => {
+  const onDelete = (id: string) => {
     setData((state) => {
+      const index = state?.findIndex((item) => item.id === String(id));
+      const toReturn = state?.slice();
+      toReturn?.splice(index as number, 1);
+      return toReturn?.slice();
+    });
+  };
 
-        const index = state?.findIndex(item => item.id === String(id))
-        const toReturn = state?.slice();
-        toReturn?.splice(index as number,1)
-        return toReturn?.slice()
+  const onDeleteExpenseItem = (id : String) => {
+    setDataToEdit((state) => {
+        const index = state?.outflow.findIndex((item) => String(item.id) === String(id))
+        const toReturn = {...state};
+        toReturn.outflow?.splice(index as number,1);
+
+        return toReturn;
     })
   }
 
@@ -221,7 +230,7 @@ const ExpenseFlowWidget = () => {
                     })}
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={onDelete.bind(undefined,+expense.id)}>
+                    <IconButton onClick={onDelete.bind(undefined, +expense.id)}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
@@ -255,7 +264,7 @@ const ExpenseFlowWidget = () => {
                   {!!dataToEdit?.outflow.length &&
                     dataToEdit.outflow.map((outflow, index) => {
                       return (
-                        <TableRow key={index}>
+                        <TableRow key={outflow.id}>
                           <TableCell>
                             <TextField
                               id="new-expense-amount"
@@ -294,6 +303,11 @@ const ExpenseFlowWidget = () => {
                                 {" "}
                                 + Add More{" "}
                               </Button>
+                            )}
+                            {index > 0 && (
+                              <IconButton onClick={onDeleteExpenseItem.bind(undefined,outflow.id)}>
+                                <DeleteIcon />
+                              </IconButton>
                             )}
                           </TableCell>
                         </TableRow>
