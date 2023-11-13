@@ -10,6 +10,7 @@ i18n
 
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
+  .use(LanguageDetector)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
@@ -23,15 +24,33 @@ i18n
       en: {
         translation: {
           expense_tracker: {
-            title: "Welcome",
-          },
+            addButton: " + Add Data",
+            save:"Save",
+            cancel:"Cancel",
+            addMoreButton:"+ Add More",
+            addExpenseButton:"+ Add Expense",
+            inflowAmount : "Inflow Amount (Rs.)",
+            inflowType : "Inflow Type",
+            expenseAmount:"Expense Amount (Rs.)",
+            expenseType : "Expense Type",
+            actions : "Actions"
+          }
         },
       },
       es: {
         translation: {
           expense_tracker: {
-            title: "Hola",
-          },
+            addButton: "+ Agregar datos",
+            save:"Salvar",
+            cancel:"Cancelar",
+            addMoreButton:"+ Añadir más",
+            addExpenseButton:"+ Agregar gastos",
+            inflowAmount : "Cantidad de entrada (Rs.)",
+            inflowType : "Tipo de entrada",
+            expenseAmount:"Monto del gasto (Rs.)",
+            expenseType : "Tipo de gasto",
+            actions:"Comportamiento"
+          }
         },
       },
     },

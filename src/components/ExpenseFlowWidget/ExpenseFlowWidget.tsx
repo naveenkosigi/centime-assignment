@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { isEmpty } from "../../helpers/helpers";
 import { useDispatch } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTranslation } from "react-i18next";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -27,6 +28,8 @@ const ExpenseFlowWidget = () => {
   const [isNewRecord, setIsNewRecord] = useState<boolean>(true);
 
   const dispatch = useDispatch();
+
+  const {t} = useTranslation();
 
   useEffect(() => {
     setData(APIData);
@@ -166,13 +169,13 @@ const ExpenseFlowWidget = () => {
         <Box>
           {!editMode && (
             <Button type="button" variant="contained" onClick={onButtonClick}>
-              + Add Data
+              {t("expense_tracker.addButton")}
             </Button>
           )}
           {editMode && (
             <>
               <Button type="button" variant="contained" onClick={onSave}>
-                Save
+              {t("expense_tracker.save")}
               </Button>
               <Button
                 type="button"
@@ -180,7 +183,7 @@ const ExpenseFlowWidget = () => {
                 onClick={onButtonClick}
                 color="error"
               >
-                Cancel
+                {t("expense_tracker.cancel")}
               </Button>
             </>
           )}
@@ -192,11 +195,11 @@ const ExpenseFlowWidget = () => {
           <Table sx={{ minWidth: "20rem" }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>{"Inflow Amount (Rs.)"}</TableCell>
-                <TableCell>Inflow Type</TableCell>
-                <TableCell>{"Expense Amount (Rs.)"}</TableCell>
-                <TableCell>Expense Type</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell>{t("expense_tracker.inflowAmount")}</TableCell>
+                <TableCell>{t("expense_tracker.inflowType")}</TableCell>
+                <TableCell>{t("expense_tracker.expenseAmount")}</TableCell>
+                <TableCell>{t("expense_tracker.expenseType")}</TableCell>
+                <TableCell>{t("expense_tracker.actions")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -301,7 +304,7 @@ const ExpenseFlowWidget = () => {
                                 onClick={onAddExpense}
                               >
                                 {" "}
-                                + Add More{" "}
+                                {t("expense_tracker.addMoreButton")} {" "}
                               </Button>
                             )}
                             {index > 0 && (
@@ -320,7 +323,7 @@ const ExpenseFlowWidget = () => {
                         variant="contained"
                         onClick={onAddExpense}
                       >
-                        + Add Expense
+                        {t("expense_tracker.addExpenseButton")}
                       </Button>
                     </TableCell>
                   )}
