@@ -28,7 +28,7 @@ const NavigationBar = () => {
       locale: "en",
     },
   });
-  const { i18n } = useTranslation();
+  const { t,i18n } = useTranslation();
 
   useEffect(() => {
     i18n.changeLanguage(language.selectedOption.locale)
@@ -40,10 +40,10 @@ const NavigationBar = () => {
         <img src={companyLogo} />
       </Box>
       <nav>
-        <div className={classes["nav-item"]}>Expense Tracker</div>
-        <div className={classes["nav-item"]}>Ecommerce</div>
-        <div className={classes["nav-item"]}>Notes</div>
-        <div className={classes["nav-item"]}>Calendar</div>
+        <div className={classes["nav-item-active"]}>{t("navigationBar.expenseTracker")}</div>
+        <div className={classes["nav-item"]}>{t("navigationBar.ecommerce")}</div>
+        <div className={classes["nav-item"]}>{t("navigationBar.notes")}</div>
+        <div className={classes["nav-item"]}>{t("navigationBar.calendar")}</div>
       </nav>
       <Autocomplete
         options={autoCompleteOptions}

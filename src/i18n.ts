@@ -34,6 +34,12 @@ i18n
             expenseAmount:"Expense Amount (Rs.)",
             expenseType : "Expense Type",
             actions : "Actions"
+          },
+          navigationBar:{
+            expenseTracker : "Expense Tracker",
+            ecommerce : "E-Commerce",
+            notes : "Notes",
+            calendar : "Calendar"
           }
         },
       },
@@ -50,6 +56,12 @@ i18n
             expenseAmount:"Monto del gasto (Rs.)",
             expenseType : "Tipo de gasto",
             actions:"Comportamiento"
+          },
+          navigationBar:{
+            expenseTracker : "Rastreador de gastos",
+            ecommerce : "Comercio electrónico",
+            notes : "Notas",
+            calendar : "Calendario"
           }
         },
       },
