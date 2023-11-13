@@ -32,8 +32,10 @@ i18n
             inflowAmount : "Inflow Amount (Rs.)",
             inflowType : "Inflow Type",
             expenseAmount:"Expense Amount (Rs.)",
+            expenseAmountPlain:"Expense Amount",
             expenseType : "Expense Type",
-            actions : "Actions"
+            actions : "Actions",
+            amount : "Amount"
           },
           navigationBar:{
             expenseTracker : "Expense Tracker",
@@ -54,8 +56,10 @@ i18n
             inflowAmount : "Cantidad de entrada (Rs.)",
             inflowType : "Tipo de entrada",
             expenseAmount:"Monto del gasto (Rs.)",
+            expenseAmountPlain:"Monto del gasto",
             expenseType : "Tipo de gasto",
-            actions:"Comportamiento"
+            actions:"Comportamiento",
+            amount : "Monto"
           },
           navigationBar:{
             expenseTracker : "Rastreador de gastos",

@@ -244,7 +244,7 @@ const ExpenseFlowWidget = () => {
                   <TableCell>
                     <TextField
                       id="new-amount"
-                      label="Amount"
+                      label={t("expense_tracker.amount")}
                       type="number"
                       sx={{ width: "8rem" }}
                       defaultValue={dataToEdit?.amount}
@@ -256,7 +256,7 @@ const ExpenseFlowWidget = () => {
                   <TableCell>
                     <TextField
                       id="new-inflow-type"
-                      label="Inflow Type"
+                      label={t("expense_tracker.inflowType")}
                       sx={{ width: "8rem" }}
                       defaultValue={dataToEdit?.type}
                       onChange={(event) => {
@@ -271,7 +271,7 @@ const ExpenseFlowWidget = () => {
                           <TableCell>
                             <TextField
                               id="new-expense-amount"
-                              label="Expense Amount"
+                              label={t("expense_tracker.expenseAmountPlain")}
                               type="number"
                               sx={{ width: "8rem" }}
                               defaultValue={dataToEdit.outflow[index].amount}
@@ -286,7 +286,7 @@ const ExpenseFlowWidget = () => {
                           <TableCell>
                             <TextField
                               id="new-expense-type"
-                              label="Expense Type"
+                              label={t("expense_tracker.expenseType")}
                               type="text"
                               sx={{ width: "8rem" }}
                               defaultValue={dataToEdit.outflow[index].type}
@@ -297,14 +297,16 @@ const ExpenseFlowWidget = () => {
                                 )
                               }
                             />{" "}
-                            {index === 0 && (
+                          </TableCell>
+                          {index === 0 && (
                               <Button
                                 type="button"
                                 variant="contained"
                                 onClick={onAddExpense}
+                                sx={{marginTop:"0.5rem"}}
                               >
                                 {" "}
-                                {t("expense_tracker.addMoreButton")} {" "}
+                                {t("expense_tracker.addMoreButton")}
                               </Button>
                             )}
                             {index > 0 && (
@@ -312,7 +314,6 @@ const ExpenseFlowWidget = () => {
                                 <DeleteIcon />
                               </IconButton>
                             )}
-                          </TableCell>
                         </TableRow>
                       );
                     })}
