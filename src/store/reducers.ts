@@ -1,18 +1,14 @@
-import { combineReducers } from "redux";
 import { ExpenseFlow } from "../data/data";
+import { createSlice } from "@reduxjs/toolkit";
 
-const inflowReducer = (state : ExpenseFlow[] = [],action: { type: string; payload: ExpenseFlow[]}) => {
-    switch(action.type){
-        case "ADD_EXPENSE_FLOW" : 
-            return action.payload;
-        default : 
-            return state;
+export const inflowReducerSlice = createSlice({
+    name : 'expense_flow_data',
+    initialState : [],
+    reducers : {
+        addBulkExpense(state : ExpenseFlow[],action){
+            for(let item of action.payload){
+                state.push(item)
+            }
+        }
     }
-}
-
-
-const entityReducer = combineReducers({
-    expenseInflows:inflowReducer
 })
-
-export default entityReducer;

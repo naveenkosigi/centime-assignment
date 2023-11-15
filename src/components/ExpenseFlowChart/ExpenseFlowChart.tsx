@@ -7,7 +7,7 @@ import Card from "../Card/Card";
 import Box from "@mui/material/Box";
 
 const ExpenseFlowChart = () => {
-  const expenseInflows = useSelector((state) => state?.entity?.expenseInflows);
+  const expenseInflows = useSelector((state : any) => state?.expensesFlow);
 
   useEffect(() => {
     if (!isEmpty(expenseInflows)) {
@@ -26,7 +26,7 @@ const ExpenseFlowChart = () => {
 
 export default ExpenseFlowChart;
 
-const convertToSankeyData = (data: ExpenseFlow[]) => {
+const convertToSankeyData = (data: ExpenseFlow[] = []) => {
   const set = new Set<string>();
 
   const nodes: { id: string }[] = [];

@@ -18,6 +18,7 @@ import { isEmpty } from "../../helpers/helpers";
 import { useDispatch } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTranslation } from "react-i18next";
+import { inflowReducerSlice } from "../../store/reducers";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -37,10 +38,7 @@ const ExpenseFlowWidget = () => {
 
   useEffect(() => {
     if (data) {
-      dispatch({
-        type: "ADD_EXPENSE_FLOW",
-        payload: data,
-      });
+      dispatch(inflowReducerSlice.actions.addBulkExpense(data));
     }
   }, [data]);
 
