@@ -15,10 +15,14 @@ import { ExpenseFlow, data as APIData } from "../../data/data";
 import Card from "../Card/Card";
 import { useEffect, useState } from "react";
 import { isEmpty } from "../../helpers/helpers";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTranslation } from "react-i18next";
-import { inflowReducerSlice } from "../../store/reducers";
+import {
+  addExpense,
+  deleteExpenseById,
+  inflowReducerSlice,
+} from "../../store/reducers";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -28,19 +32,17 @@ const ExpenseFlowWidget = () => {
 
   const [isNewRecord, setIsNewRecord] = useState<boolean>(true);
 
+  const expenseInflows = useSelector((state: any) => state?.expensesFlow);
+
   const dispatch = useDispatch();
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    setData(APIData);
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      dispatch(inflowReducerSlice.actions.addBulkExpense(data));
+    if (!isEmpty(expenseInflows)) {
+      setData(expenseInflows);
     }
-  }, [data]);
+  }, [expenseInflows]);
 
   useEffect(() => {
     if (editMode === true) {
@@ -63,10 +65,7 @@ const ExpenseFlowWidget = () => {
   const onSave = () => {
     console.log("data to save", dataToEdit);
 
-    setData((state) => {
-      return [...(state as ExpenseFlow[]), dataToEdit];
-    });
-
+    dispatch(addExpense(dataToEdit));
     setEditMode(false);
   };
 
@@ -147,19 +146,23 @@ const ExpenseFlowWidget = () => {
       const index = state?.findIndex((item) => item.id === String(id));
       const toReturn = state?.slice();
       toReturn?.splice(index as number, 1);
+
+      dispatch(deleteExpenseById(index));
       return toReturn?.slice();
     });
   };
 
-  const onDeleteExpenseItem = (id : String) => {
+  const onDeleteExpenseItem = (id: String) => {
     setDataToEdit((state) => {
-        const index = state?.outflow.findIndex((item) => String(item.id) === String(id))
-        const toReturn = {...state};
-        toReturn.outflow?.splice(index as number,1);
+      const index = state?.outflow.findIndex(
+        (item) => String(item.id) === String(id)
+      );
+      const toReturn = { ...state };
+      toReturn.outflow?.splice(index as number, 1);
 
-        return toReturn;
-    })
-  }
+      return toReturn;
+    });
+  };
 
   return (
     <Card title={"Expense Flow"}>
@@ -173,7 +176,7 @@ const ExpenseFlowWidget = () => {
           {editMode && (
             <>
               <Button type="button" variant="contained" onClick={onSave}>
-              {t("expense_tracker.save")}
+                {t("expense_tracker.save")}
               </Button>
               <Button
                 type="button"
@@ -297,21 +300,26 @@ const ExpenseFlowWidget = () => {
                             />{" "}
                           </TableCell>
                           {index === 0 && (
-                              <Button
-                                type="button"
-                                variant="contained"
-                                onClick={onAddExpense}
-                                sx={{marginTop:"0.5rem"}}
-                              >
-                                {" "}
-                                {t("expense_tracker.addMoreButton")}
-                              </Button>
-                            )}
-                            {index > 0 && (
-                              <IconButton onClick={onDeleteExpenseItem.bind(undefined,outflow.id)}>
-                                <DeleteIcon />
-                              </IconButton>
-                            )}
+                            <Button
+                              type="button"
+                              variant="contained"
+                              onClick={onAddExpense}
+                              sx={{ marginTop: "0.5rem" }}
+                            >
+                              {" "}
+                              {t("expense_tracker.addMoreButton")}
+                            </Button>
+                          )}
+                          {index > 0 && (
+                            <IconButton
+                              onClick={onDeleteExpenseItem.bind(
+                                undefined,
+                                outflow.id
+                              )}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
                         </TableRow>
                       );
                     })}

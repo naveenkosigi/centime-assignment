@@ -1,14 +1,20 @@
 import { ExpenseFlow } from "../data/data";
 import { createSlice } from "@reduxjs/toolkit";
+import { data } from "../data/data"
 
 export const inflowReducerSlice = createSlice({
     name : 'expense_flow_data',
-    initialState : [],
+    initialState : data,
     reducers : {
-        addBulkExpense(state : ExpenseFlow[],action){
-            for(let item of action.payload){
-                state.push(item)
-            }
+        addExpense(state : ExpenseFlow[],action){
+            state.push(action.payload)
+        },
+        deleteExpenseById(state : ExpenseFlow [],action){
+            const index = state.findIndex(item => item.id === action.payload.id);
+
+            state?.splice(index as number, 1);
         }
     }
 })
+
+export const {addExpense , deleteExpenseById} = inflowReducerSlice.actions;
