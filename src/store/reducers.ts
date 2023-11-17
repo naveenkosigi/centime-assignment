@@ -9,6 +9,11 @@ export const inflowReducerSlice = createSlice({
         addExpense(state : ExpenseFlow[],action){
             state.push(action.payload)
         },
+        editExpenseById(state : ExpenseFlow[],action){
+            const index = state.findIndex(item => item.id === action.payload.id)
+
+            state[index] = action.payload;
+        },
         deleteExpenseById(state : ExpenseFlow [],action){
             const index = state.findIndex(item => item.id === action.payload.id);
 
@@ -17,4 +22,4 @@ export const inflowReducerSlice = createSlice({
     }
 })
 
-export const {addExpense , deleteExpenseById} = inflowReducerSlice.actions;
+export const {addExpense , editExpenseById , deleteExpenseById} = inflowReducerSlice.actions;
