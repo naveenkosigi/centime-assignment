@@ -64,7 +64,7 @@ export const data : ExpenseFlow[] = [
         type : "Electric"
       },
       {
-        id : '0',
+        id : '1',
         amount : 2000,
         type : "Mobile"
       }

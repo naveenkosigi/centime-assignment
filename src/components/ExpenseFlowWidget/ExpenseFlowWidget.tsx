@@ -29,6 +29,7 @@ import {
   editExpenseById,
 } from "../../store/reducers";
 import EditIcon from "@mui/icons-material/Edit";
+import { cloneDeep } from "lodash";
 
 const ExpenseFlowWidget = () => {
   const [data, setData] = useState<ExpenseFlow[]>();
@@ -89,7 +90,7 @@ const ExpenseFlowWidget = () => {
         outflow: [
           ...(state?.outflow as []),
           {
-            id: state?.outflow.length,
+            id: String(state?.outflow.length),
             amount: 0,
             type: "",
           },
@@ -124,7 +125,7 @@ const ExpenseFlowWidget = () => {
     if (amount) {
       setDataToEdit((state) => {
         const outflows = [...state?.outflow];
-        outflows[index] = {...outflows[index],amount};
+        outflows[index] = { ...outflows[index], amount };
 
         return {
           ...state,
@@ -166,15 +167,19 @@ const ExpenseFlowWidget = () => {
       const index = state?.outflow.findIndex(
         (item) => String(item.id) === String(id)
       );
-      const toReturn = { ...state };
-      toReturn.outflow?.splice(index as number, 1);
 
-      return toReturn;
+      const outflows = [...state?.outflow];
+      outflows?.splice(index as number, 1);
+
+      return {
+        ...state,
+        outflow: outflows,
+      };
     });
   };
 
   const enabledEditMode = (expense: ExpenseFlow) => {
-    setDataToEdit(expense);
+    setDataToEdit(cloneDeep(expense));
     setIsNewRecord(false);
     setEditMode(true);
   };
@@ -254,62 +259,96 @@ const ExpenseFlowWidget = () => {
                     )}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {expense.outflow.map((outflow, index) => {
-                      return (
-                        <TableRow key={index + " " + outflow.id}>
-                          {expenseIdToEdit !== expense?.id && outflow.amount}
-                          {expenseIdToEdit === expense?.id && (
+                    {expenseIdToEdit !== expense?.id &&
+                      expense.outflow.map((outflow) => {
+                        return (
+                          <TableRow key={outflow.type}>
+                            {outflow.amount}
+                          </TableRow>
+                        );
+                      })}
+
+                    {expenseIdToEdit === expense?.id &&
+                      dataToEdit?.outflow.map((outflow, index) => {
+                        return (
+                          <TableRow key={outflow.id}>
                             <TextField
                               id="new-expense-amount"
                               label={t("expense_tracker.expenseAmountPlain")}
                               type="number"
                               sx={{ width: "8rem" }}
-                              defaultValue={dataToEdit.outflow[index].amount}
-                              onChange={(event) =>
+                              defaultValue={outflow.amount}
+                              onBlur={(event) =>
                                 onOutflowExpenseChange(
                                   +event.target.value,
                                   index
                                 )
                               }
                             />
-                          )}
-                        </TableRow>
-                      );
-                    })}
+                          </TableRow>
+                        );
+                      })}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {expense.outflow.map((outflow, index) => {
-                      return (
-                        <TableRow key={index + " " + outflow.id}>
-                          {expenseIdToEdit !== expense?.id && outflow.type}
-                          {expenseIdToEdit === expense.id && (
+                    {expenseIdToEdit !== expense?.id &&
+                      expense.outflow.map((outflow) => {
+                        return (
+                          <TableRow key={outflow.type}>{outflow.type}</TableRow>
+                        );
+                      })}
+
+                    {expenseIdToEdit === expense?.id &&
+                      dataToEdit?.outflow.map((outflow, index) => {
+                        return (
+                          <TableRow key={outflow.id}>
                             <TextField
                               id="new-expense-type"
                               label={t("expense_tracker.expenseType")}
-                              type="text"
                               sx={{ width: "8rem" }}
-                              defaultValue={dataToEdit.outflow[index].type}
-                              onChange={(event) =>
+                              defaultValue={outflow.type}
+                              onBlur={(event) =>
                                 onOutflowExpenseTypeChange(
                                   event.target.value,
                                   index
                                 )
                               }
                             />
-                          )}
-                        </TableRow>
-                      );
-                    })}
+                            {dataToEdit.outflow.length > 1 && (
+                              <IconButton
+                                onClick={onDeleteExpenseItem.bind(
+                                  undefined,
+                                  outflow.id
+                                )}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            )}
+                            {index === 0 && (
+                              <Button
+                                type="button"
+                                variant="contained"
+                                onClick={onAddExpense}
+                                sx={{ marginTop: "0.5rem" }}
+                              >
+                                {" "}
+                                {t("expense_tracker.addMoreButton")}
+                              </Button>
+                            )}
+                          </TableRow>
+                        );
+                      })}
                   </TableCell>
                   <TableCell>
                     <IconButton onClick={onDelete.bind(undefined, +expense.id)}>
                       <DeleteIcon />
                     </IconButton>
-                    {!editMode && <IconButton
-                      onClick={enabledEditMode.bind(undefined, expense)}
-                    >
-                      <EditIcon />
-                    </IconButton>}
+                    {!editMode && (
+                      <IconButton
+                        onClick={enabledEditMode.bind(undefined, expense)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
